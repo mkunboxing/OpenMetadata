@@ -1,0 +1,88 @@
+{
+  "$id": "https://open-metadata.org/schema/api/services/createMcpService.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CreateMcpServiceRequest",
+  "description": "Create MCP Service entity request",
+  "type": "object",
+  "javaType": "org.openmetadata.schema.api.services.CreateMcpService",
+  "javaInterfaces": ["org.openmetadata.schema.CreateEntity"],
+  "properties": {
+    "name": {
+      "description": "Name that identifies this MCP service.",
+      "$ref": "../../type/basic.json#/definitions/entityName"
+    },
+    "displayName": {
+      "description": "Display Name that identifies this MCP service.",
+      "$ref": "../../type/basic.json#/definitions/displayName"
+    },
+    "description": {
+      "description": "Description of MCP service instance.",
+      "$ref": "../../type/basic.json#/definitions/markdown"
+    },
+    "serviceType": {
+      "description": "Type of MCP service",
+      "$ref": "../../entity/services/mcpService.json#/definitions/mcpServiceType"
+    },
+    "connection": {
+      "$ref": "../../entity/services/mcpService.json#/definitions/mcpConnection"
+    },
+    "availableTools": {
+      "description": "List of tools exposed by this MCP service",
+      "type": "array",
+      "items": {
+        "$ref": "../../entity/services/mcpService.json#/definitions/mcpTool"
+      },
+      "default": null
+    },
+    "availableResources": {
+      "description": "List of resources exposed by this MCP service",
+      "type": "array",
+      "items": {
+        "$ref": "../../entity/services/mcpService.json#/definitions/mcpResource"
+      },
+      "default": null
+    },
+    "availablePrompts": {
+      "description": "List of prompt templates exposed by this MCP service",
+      "type": "array",
+      "items": {
+        "$ref": "../../entity/services/mcpService.json#/definitions/mcpPrompt"
+      },
+      "default": null
+    },
+    "serverInstructions": {
+      "description": "Instructions or guidelines for using this MCP server",
+      "$ref": "../../type/basic.json#/definitions/markdown"
+    },
+    "tags": {
+      "description": "Tags for this MCP service.",
+      "type": "array",
+      "items": {
+        "$ref": "../../type/tagLabel.json"
+      },
+      "default": null
+    },
+    "owners": {
+      "description": "Owners of this MCP service.",
+      "$ref": "../../type/entityReferenceList.json",
+      "default": null
+    },
+    "domain" : {
+      "description": "Fully qualified name of the domain the MCP Service belongs to.",
+      "type": "string"
+    },
+    "dataProducts" : {
+      "description": "List of fully qualified names of data products this entity is part of.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "lifeCycle": {
+      "description": "Life Cycle properties of the entity",
+      "$ref": "../../type/lifeCycle.json"
+    }
+  },
+  "required": ["name", "serviceType", "connection"],
+  "additionalProperties": false
+}

@@ -1,0 +1,244 @@
+{
+  "$id": "https://open-metadata.org/schema/entity/services/mcpService.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MCP Service",
+  "description": "This schema defines the MCP (Model Context Protocol) Service entity, such as Claude Desktop MCP servers.",
+  "type": "object",
+  "javaType": "org.openmetadata.schema.entity.services.McpService",
+  "javaInterfaces": ["org.openmetadata.schema.ServiceEntityInterface"],
+  "definitions": {
+    "mcpServiceType": {
+      "description": "Type of MCP service",
+      "javaType": "org.openmetadata.schema.entity.services.McpServiceType",
+      "type": "string",
+      "enum": [
+        "GenericMcp"
+      ],
+      "default": "GenericMcp"
+    },
+    "mcpConnection": {
+      "type": "object",
+      "javaType": "org.openmetadata.schema.services.connections.mcp.McpConnection",
+      "description": "MCP Connection configuration",
+      "title": "MCP Connection",
+      "oneOf": [
+        {
+          "$ref": "connections/mcp/mcpConnection.json"
+        }
+      ]
+    },
+    "mcpTool": {
+      "type": "object",
+      "description": "MCP Tool exposed by the service",
+      "properties": {
+        "name": {
+          "description": "Name of the tool",
+          "type": "string"
+        },
+        "description": {
+          "description": "Description of what the tool does",
+          "type": "string"
+        },
+        "inputSchema": {
+          "description": "JSON Schema defining the tool's input parameters",
+          "type": "object"
+        },
+        "outputSchema": {
+          "description": "JSON Schema defining the tool's output format",
+          "type": "object"
+        },
+        "category": {
+          "description": "Category or grouping for the tool",
+          "type": "string"
+        },
+        "examples": {
+          "description": "Example usage of the tool",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "input": {
+                "type": "object"
+              },
+              "output": {
+                "type": "object"
+              },
+              "description": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "required": ["name"],
+      "additionalProperties": false
+    },
+    "mcpResource": {
+      "type": "object",
+      "description": "Resource exposed by the MCP service",
+      "properties": {
+        "uri": {
+          "description": "URI of the resource",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name of the resource",
+          "type": "string"
+        },
+        "description": {
+          "description": "Description of the resource",
+          "type": "string"
+        },
+        "mimeType": {
+          "description": "MIME type of the resource",
+          "type": "string"
+        }
+      },
+      "required": ["uri"],
+      "additionalProperties": false
+    },
+    "mcpPrompt": {
+      "type": "object",
+      "description": "Prompt template exposed by the MCP service",
+      "properties": {
+        "name": {
+          "description": "Name of the prompt",
+          "type": "string"
+        },
+        "description": {
+          "description": "Description of the prompt",
+          "type": "string"
+        },
+        "arguments": {
+          "description": "Arguments for the prompt template",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "required": {
+                "type": "boolean"
+              }
+            },
+            "required": ["name"]
+          }
+        }
+      },
+      "required": ["name"],
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "id": {
+      "description": "Unique identifier of this service instance.",
+      "$ref": "../../type/basic.json#/definitions/uuid"
+    },
+    "name": {
+      "description": "Name that identifies this MCP service.",
+      "$ref": "../../type/basic.json#/definitions/entityName"
+    },
+    "fullyQualifiedName": {
+      "description": "Fully qualified name of the MCP service.",
+      "$ref": "../../type/basic.json#/definitions/fullyQualifiedEntityName"
+    },
+    "displayName": {
+      "description": "Display Name that identifies this MCP service.",
+      "$ref": "../../type/basic.json#/definitions/displayName"
+    },
+    "serviceType": {
+      "description": "Type of MCP service",
+      "$ref": "#/definitions/mcpServiceType"
+    },
+    "description": {
+      "description": "Description of a MCP service instance.",
+      "$ref": "../../type/basic.json#/definitions/markdown"
+    },
+    "connection": {
+      "$ref": "#/definitions/mcpConnection"
+    },
+    "availableTools": {
+      "description": "List of tools exposed by this MCP service",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mcpTool"
+      },
+      "default": null
+    },
+    "availableResources": {
+      "description": "List of resources exposed by this MCP service",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mcpResource"
+      },
+      "default": null
+    },
+    "availablePrompts": {
+      "description": "List of prompt templates exposed by this MCP service",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mcpPrompt"
+      },
+      "default": null
+    },
+    "serverInstructions": {
+      "description": "Instructions or guidelines for using this MCP server",
+      "$ref": "../../type/basic.json#/definitions/markdown"
+    },
+    "testConnectionResult": {
+      "description": "Last test connection results for this service",
+      "$ref": "connections/testConnectionResult.json"
+    },
+    "tags": {
+      "description": "Tags for this MCP service.",
+      "type": "array",
+      "items": {
+        "$ref": "../../type/tagLabel.json"
+      },
+      "default": null
+    },
+    "owners": {
+      "description": "Owners of this MCP service.",
+      "$ref": "../../type/entityReferenceList.json"
+    },
+    "version": {
+      "description": "Metadata version of the entity.",
+      "$ref": "../../type/entityHistory.json#/definitions/entityVersion"
+    },
+    "updatedAt": {
+      "description": "Last update time corresponding to the new version of the entity in Unix epoch time milliseconds.",
+      "$ref": "../../type/basic.json#/definitions/timestamp"
+    },
+    "updatedBy": {
+      "description": "User who made the update.",
+      "type": "string"
+    },
+    "href": {
+      "description": "Link to the resource corresponding to this MCP service.",
+      "$ref": "../../type/basic.json#/definitions/href"
+    },
+    "changeDescription": {
+      "description": "Change that lead to this version of the entity.",
+      "$ref": "../../type/entityHistory.json#/definitions/changeDescription"
+    },
+    "deleted": {
+      "description": "When `true` indicates the entity has been soft deleted.",
+      "type": "boolean",
+      "default": false
+    },
+    "dataProducts": {
+      "description": "List of data products this entity is part of.",
+      "$ref": "../../type/entityReferenceList.json"
+    },
+    "domain": {
+      "description": "Domain the MCP service belongs to.",
+      "$ref": "../../type/entityReference.json"
+    }
+  },
+  "required": ["id", "name", "serviceType"],
+  "additionalProperties": false
+}
