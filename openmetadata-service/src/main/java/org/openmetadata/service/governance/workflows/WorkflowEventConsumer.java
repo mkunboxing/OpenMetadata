@@ -187,4 +187,9 @@ public class WorkflowEventConsumer implements Destination<ChangeEvent> {
   public boolean getEnabled() {
     return subscriptionDestination.getEnabled();
   }
+
+  @Override
+  public boolean requiresRecipients() {
+    return false;
+  }
 }
